@@ -1,0 +1,35 @@
+{{#> page logged_in=session.username}}
+    <div class="rounded flex flex-col items-center justify-center m-12 w-11/12 gap-2">
+        {{#if codeSnippets}}
+            <h1 class="text-white font-bold text-3xl">Snippets</h1>
+        {{else}}
+            <h1 class="text-white font-bold text-3xl">No Code Snippets Found</h1>
+        {{/if}}
+
+
+        {{#if session.flash_message}}
+            <div class="rounded flex flex-row gap-2 justify-start items-start bg-violet-400 p-1 w-full">
+                {{> svg_icons/warning_icon}}
+                <h1 class="text-white font-bold text-start leading-none self-center">{{session.flash_message}}</h1>
+            </div>
+        {{/if}}
+
+        <div class="grid grid-cols-auto-fit-320 w-full gap-4">
+            {{#if codeSnippets}}
+                {{#each codeSnippets}}
+                    {{> code_snippets/snippet_card
+                            id=this.id
+                            title=this.title
+                            code=this.code
+                            tags=this.tags
+                            by_user=this.by_user
+                            language=this.language
+                            img_language=this.img_language
+                    }}
+                {{/each}}
+            {{else}}
+
+            {{/if}}
+        </div>
+    </div>
+{{/page}}

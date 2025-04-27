@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  b2-web-client:
+    restart: always
+    image: b2-web-client
+    container_name: b2-web-client-container
+    ports:
+      - "4444:4444"
+
+    # PRODUCTION BUILD
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  b2-mongodb:
+    restart: always
+    image: mongo
+    container_name: b2-mongodb-container
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - b2-mongodb-volume:/data/db
+
+volumes:
+  b2-mongodb-volume:

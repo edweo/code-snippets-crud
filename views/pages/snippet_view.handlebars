@@ -1,0 +1,72 @@
+{{#> page logged_in=session.username}}
+    {{#if session.flash_message}}
+        <div class="rounded flex flex-row gap-2 justify-start items-start bg-violet-400 p-1 w-9/12 mb-2">
+            {{> svg_icons/warning_icon}}
+            <h1 class="text-white font-bold text-start leading-none self-center">{{session.flash_message}}</h1>
+        </div>
+    {{/if}}
+    <div class="bg-gradient-to-br from-orange-300 to-violet-300 shadow-md rounded p-3 w-9/12 flex flex-col gap-1">
+        <h1 class="text-white font-bold text-2xl">{{snippet.title}}</h1>
+
+        <div class="bg-black/10 rounded p-2 overflow-hidden">
+            <code class="block h-[60vh] overflow-auto
+        scrollbar-thin scrollbar-thumb-violet-800/30 scrollbar-track-amber-700/20">{{{preserveIndent snippet.code }}}</code>
+        </div>
+
+        {{#if snippet.tags}}
+            <div class="rounded p-1 flex flex-row flex-wrap gap-1">
+                <p class="text-white font-bold">Tags:</p>
+                <p>{{snippet.tags}}</p>
+            </div>
+        {{/if}}
+
+        <div class="flex flex-row items-center justify-between">
+            <div class="bg-violet-400 inline-flex flex-row rounded p-1.5 items-center justify-start gap-4">
+                <div class="flex flex-row gap-1">
+                    {{> svg_icons/user_icon}}
+                    <p class="text-white font-bold">{{snippet.by_user}}</p>
+                </div>
+
+                {{#if same_user}}
+                    <div class="flex flex-row gap-1 justify-center items-center">
+                        {{#> buttons/icon_button class="btn-del" bg="bg-black/40" bg-hover="bg-black/20"}}
+                            {{> svg_icons/trashcan_icon}}
+                        {{/ buttons/icon_button}}
+                        {{#> buttons/icon_button class="btn-edit" bg="bg-black/40" bg-hover="bg-black/20"}}
+                            {{> svg_icons/edit_icon}}
+                        {{/ buttons/icon_button}}
+                    </div>
+                {{/if}}
+            </div>
+
+            <div class="bg-black/10 flex flex-row justify-start items-center rounded p-1 gap-1">
+                <img src={{baseUrl snippet.img_language}} alt="programming language icon" height="20" width="20">
+                <p class="text-white">{{snippet.language}}</p>
+            </div>
+        </div>
+    </div>
+{{/page}}
+
+<script>
+    const btn_delete = document.querySelector('.btn-del')
+    const btn_edit = document.querySelector('.btn-edit')
+
+    btn_delete.addEventListener('click', async e => {
+        e.stopPropagation()
+        e.preventDefault()
+        fetch('{{href_delete}}', {
+            method: 'DELETE',
+            redirect: "manual"
+        }).then(res => {
+            window.location.replace('{{baseUrl '/snippets'}}')
+        }).catch(err => {
+            window.location.replace('{{baseUrl '/snippets'}}')
+        })
+    })
+
+    btn_edit.addEventListener('click', async e => {
+        e.stopPropagation()
+        e.preventDefault()
+        window.location.replace('{{href_edit}}')
+    })
+</script>

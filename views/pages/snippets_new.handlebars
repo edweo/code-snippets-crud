@@ -1,0 +1,9 @@
+{{#> page logged_in=session.username}}
+    {{#> forms/form width="w-9/12" title="New Code Snippet" action="/snippets/new" bg="bg-gradient-to-br from-orange-300 to-violet-300" flash=session.flash_message}}
+        {{> forms/form_field title="Title" value="" name="title" input_type="text" bg="bg-black/10"}}
+        {{> forms/form_text_area value="" title="Code Snippet" name="code" bg="bg-black/10"}}
+        {{> code_snippets/select_language bg="bg-black/10"}}
+
+        {{> forms/form_button text="Create" bg="bg-black/60" type="submit"}}
+    {{/forms/form}}
+{{/page}}
